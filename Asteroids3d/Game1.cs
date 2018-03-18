@@ -1,5 +1,4 @@
 ﻿using BEPUphysics;
-using BEPUphysics.Entities.Prefabs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -11,6 +10,8 @@ namespace Asteroids3d {
     public class Game1 : Game {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Camera camera;
+        Model skyboxModel;
 
         public static Vector3 CameraPosition {
             get;
@@ -37,8 +38,10 @@ namespace Asteroids3d {
             // Make our BEPU Physics space a service
             Services.AddService<Space>(new Space());
 
-            new MediumAsteroid(this, new Vector3(1, 5, -20), 2, new Vector3(0.2f, -3.9f, 5.0f), new Vector3(0.1f, 0.0f, 0.0f));
-            new MediumAsteroid(this, new Vector3(10, 4, -5), 2, new Vector3(0.2f, 0.6f, -6f), new Vector3(0.9f, 0.0f, 3f));
+            new UniverseWall(this, new BEPUutilities.Vector3(0, 0, 0), 80, 80, 80);
+
+            new MediumAsteroid(this, new Vector3(1, 5, -30), 2, new Vector3(0.2f, 10f, 0f), new Vector3(0.1f, 0.0f, 0.0f));
+            new MediumAsteroid(this, new Vector3(5, 5, 0), 2, new Vector3(0f, 0f, 15f), new Vector3(0.9f, 0.0f, 3f));
 
             base.Initialize();
         }
@@ -50,13 +53,6 @@ namespace Asteroids3d {
         protected override void LoadContent() {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            Services.GetService<Space>().Add(new Box(new BEPUutilities.Vector3(0,0,-22), 20, 20, 1));
-            Services.GetService<Space>().Add(new Box(new BEPUutilities.Vector3(0, 0, 0), 20, 20, 1));
-            Services.GetService<Space>().Add(new Box(new BEPUutilities.Vector3(0, 0, 0), 1, 20, 20));
-            Services.GetService<Space>().Add(new Box(new BEPUutilities.Vector3(20, 0, -22), 1, 20, 20));
-            Services.GetService<Space>().Add(new Box(new BEPUutilities.Vector3(0, 0, -10), 20, 1, 20));
-            Services.GetService<Space>().Add(new Box(new BEPUutilities.Vector3(0, 0, -22), 20, 20, 1));
 
             // TODO: use this.Content to load your game content here
         }
@@ -80,7 +76,8 @@ namespace Asteroids3d {
 
             // TODO: Add your update logic here
             Services.GetService<Space>().Update((float)gameTime.ElapsedGameTime.TotalSeconds);
-
+            CameraPosition = new Vector3(CameraPosition.X, CameraPosition.Y, 100);
+            CameraDirection = new Vector3(CameraDirection.X + 1, CameraDirection.Y, CameraDirection.Z + 0.05f);
             base.Update(gameTime);
         }
 
@@ -90,10 +87,23 @@ namespace Asteroids3d {
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.Black);
-
+            
             // TODO: Add your drawing code here
 
             base.Draw(gameTime);
+        }
+
+        private void DrawSkybox() {
+            SamplerState samplerState = new SamplerState();
+            samplerState.AddressU = TextureAddressMode.Clamp;
+            samplerState.AddressV = TextureAddressMode.Clamp;
+            GraphicsDevice.SamplerStates[0] = samplerState;
+
+            DepthStencilState depthStencil = new DepthStencilState();
+            depthStencil.DepthBufferEnable = false;
+            GraphicsDevice.DepthStencilState = depthStencil;
+
+            //Matrix[] skyboxTransforms = new Matrix[]
         }
     }
 }

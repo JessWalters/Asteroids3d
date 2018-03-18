@@ -5,6 +5,7 @@
   <Config />
   <SourceFiles>
     <File>D:/Projects/ComS 437/Asteroids3d/Asteroids3d/Content/moon.fbx</File>
+    <File>D:/Projects/ComS 437/Asteroids3d/Asteroids3d/Content/skybox.fbx</File>
     <File>D:/Projects/ComS 437/Asteroids3d/Asteroids3d/Content/moonsurface.png</File>
   </SourceFiles>
 </SourceFileCollection>

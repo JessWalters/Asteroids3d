@@ -47,6 +47,8 @@
     <Compile Include="SmallAsteroid.cs" />
     <Compile Include="MediumAsteroid.cs" />
     <Compile Include="LargeAsteroid.cs" />
+    <Compile Include="UniverseWall.cs" />
+    <Compile Include="Camera.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="BEPUik, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
