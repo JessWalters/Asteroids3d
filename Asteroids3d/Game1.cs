@@ -1,4 +1,8 @@
 ﻿using BEPUphysics;
+using BEPUphysics.BroadPhaseEntries;
+using BEPUphysics.BroadPhaseEntries.MobileCollidables;
+using BEPUphysics.Entities;
+using BEPUphysics.NarrowPhaseSystems.Pairs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -49,9 +53,22 @@ namespace Asteroids3d {
             new UniverseWall(this, new BEPUutilities.Vector3(0, 0, 0), 400, 400, 400);
 
             for (int i = 1; i <= 500; i++) {
-                new MediumAsteroid(this, new Vector3(rnd.Next(-80, 80), rnd.Next(-80, 80), rnd.Next(-80, 80)), 2, new Vector3(rnd.Next(-5,5), rnd.Next(-5, 5), rnd.Next(-5, 5)), new Vector3(rnd.Next(-5, 5), rnd.Next(-5, 5), rnd.Next(-5, 5)));
+                switch (rnd.Next(1, 4)) {
+                    case 1:
+                        new SmallAsteroid(this, new Vector3(rnd.Next(-80, 80), rnd.Next(-80, 80), rnd.Next(-80, 80)), 2, new Vector3(rnd.Next(-5, 5), rnd.Next(-5, 5), rnd.Next(-5, 5)), new Vector3(rnd.Next(-5, 5), rnd.Next(-5, 5), rnd.Next(-5, 5)));
+                        break;
+                    case 2:
+                        new MediumAsteroid(this, new Vector3(rnd.Next(-80, 80), rnd.Next(-80, 80), rnd.Next(-80, 80)), 2, new Vector3(rnd.Next(-5, 5), rnd.Next(-5, 5), rnd.Next(-5, 5)), new Vector3(rnd.Next(-5, 5), rnd.Next(-5, 5), rnd.Next(-5, 5)));
+                        break;
+                    case 3:
+                        new LargeAsteroid(this, new Vector3(rnd.Next(-80, 80), rnd.Next(-80, 80), rnd.Next(-80, 80)), 2, new Vector3(rnd.Next(-5, 5), rnd.Next(-5, 5), rnd.Next(-5, 5)), new Vector3(rnd.Next(-5, 5), rnd.Next(-5, 5), rnd.Next(-5, 5)));
+                        break;
+                    default:
+                        break;
+                }
             }
-            ship = new Ship(this, new Vector3(0, 0, -10), 2, Vector3.Zero, Vector3.Zero);
+
+            ship = new Ship(this, new Vector3(0, 0, -10), 2, new Vector3(0f, 0f, 5f), Vector3.Zero);
 
             Camera = new Camera(this);
 
@@ -90,7 +107,7 @@ namespace Asteroids3d {
             GameTime tmp = gameTime;
 
             if (mouse.LeftButton == ButtonState.Pressed && gameTime.TotalGameTime.TotalMilliseconds - lastShot > 500) {
-                new MediumAsteroid(this, ship.position + (ship.WorldMatrix.Forward * 3), 2, ship.WorldMatrix.Forward * 200, Vector3.Zero);
+                new Bullet(this, ship.position + (ship.WorldMatrix.Forward * 5.5f), 2, ship.WorldMatrix.Forward * 200, Vector3.Zero);
                 lastShot = gameTime.TotalGameTime.TotalMilliseconds;
             }
 
@@ -110,5 +127,6 @@ namespace Asteroids3d {
             
             base.Draw(gameTime);
         }
+
     }
 }

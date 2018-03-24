@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>D:/Projects/ComS 437/Asteroids3d/Asteroids3d/Content/spacebox.jpg</SourceFile>
-  <SourceTime>2018-03-18T01:00:28.7312183-05:00</SourceTime>
-  <DestFile>D:/Projects/ComS 437/Asteroids3d/Asteroids3d/Content/bin/Windows/spacebox_0.xnb</DestFile>
-  <DestTime>2018-03-18T01:23:28.1439492-05:00</DestTime>
+  <SourceFile>C:/Projects/Asteroids3d/Asteroids3d/Content/spacebox.jpg</SourceFile>
+  <SourceTime>2018-03-24T03:26:25.0406457-05:00</SourceTime>
+  <DestFile>C:/Projects/Asteroids3d/Asteroids3d/Content/bin/Windows/spacebox_0.xnb</DestFile>
+  <DestTime>2018-03-24T03:38:58.6425818-05:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2017-03-01T09:05:36-06:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

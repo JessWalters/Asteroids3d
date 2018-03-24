@@ -2,11 +2,6 @@ using BEPUphysics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Asteroids3d {
     internal class SmallAsteroid : DrawableGameComponent {
@@ -28,7 +23,11 @@ namespace Asteroids3d {
             physicsObject = new BEPUphysics.Entities.Prefabs.Sphere(ConversionHelper.MathConverter.Convert(pos), 1);
             physicsObject.AngularDamping = 0f;
             physicsObject.LinearDamping = 0f;
+            physicsObject.CollisionInformation.Tag = this;
+
             Game.Services.GetService<Space>().Add(physicsObject);
+            if (model != null)
+                physicsObject.Radius = model.Meshes[0].BoundingSphere.Radius;
         }
 
         public SmallAsteroid(Game game, Vector3 pos, float mass) : this(game, pos) {
@@ -48,9 +47,9 @@ namespace Asteroids3d {
         }
 
         protected override void LoadContent() {
-            moonTexture = Game.Content.Load<Texture2D>("moonsurface");
-            model = Game.Content.Load<Model>("moon");
-            physicsObject.Radius = model.Meshes[0].BoundingSphere.Radius;
+            model = Game.Content.Load<Model>("Rockfbx");
+            if (physicsObject != null)
+                physicsObject.Radius = model.Meshes[0].BoundingSphere.Radius;
 
             base.LoadContent();
         }

@@ -21,8 +21,9 @@ namespace Asteroids3d {
             physicsObject = new BEPUphysics.Entities.Prefabs.Sphere(ConversionHelper.MathConverter.Convert(pos), 1);
             physicsObject.AngularDamping = 0f;
             physicsObject.LinearDamping = 0f;
+            physicsObject.CollisionInformation.Tag = this;
             if (model != null)
-                physicsObject.Radius = model.Meshes[0].BoundingSphere.Radius;
+                physicsObject.Radius = model.Meshes[0].BoundingSphere.Radius * .75f;
 
             Game.Services.GetService<Space>().Add(physicsObject);
         }
@@ -46,7 +47,7 @@ namespace Asteroids3d {
         protected override void LoadContent() {
             model = Game.Content.Load<Model>("moon");
             if (physicsObject != null)
-                physicsObject.Radius = model.Meshes[0].BoundingSphere.Radius;
+                physicsObject.Radius = model.Meshes[0].BoundingSphere.Radius * .75f;
 
             base.LoadContent();
         }

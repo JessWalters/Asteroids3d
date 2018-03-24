@@ -1,6 +1,11 @@
 using BEPUphysics;
+using BEPUphysics.BroadPhaseEntries;
+using BEPUphysics.BroadPhaseEntries.MobileCollidables;
+using BEPUphysics.Entities;
+using BEPUphysics.NarrowPhaseSystems.Pairs;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace Asteroids3d {
 
@@ -17,8 +22,11 @@ namespace Asteroids3d {
             physicsObject = new BEPUphysics.Entities.Prefabs.Sphere(ConversionHelper.MathConverter.Convert(pos), 1);
             physicsObject.AngularDamping = 0f;
             physicsObject.LinearDamping = 0f;
-            if (model != null)
+            physicsObject.CollisionInformation.Tag = this;
+            if (model != null) {
                 physicsObject.Radius = model.Meshes[0].BoundingSphere.Radius;
+                physicsObject.CollisionInformation.Events.InitialCollisionDetected += HandleCollision;
+            }
 
             Game.Services.GetService<Space>().Add(physicsObject);
         }
@@ -38,12 +46,14 @@ namespace Asteroids3d {
         public override void Initialize() {
             base.Initialize();
         }
-
+        
         protected override void LoadContent() {
-            model = Game.Content.Load<Model>("moon");
-            if (physicsObject != null)
+            model = Game.Content.Load<Model>("Rockfbx");
+            if (physicsObject != null) {
                 physicsObject.Radius = model.Meshes[0].BoundingSphere.Radius;
-
+                physicsObject.CollisionInformation.Tag = this;
+                physicsObject.CollisionInformation.Events.InitialCollisionDetected += HandleCollision;
+            }
             base.LoadContent();
         }
 
@@ -66,6 +76,49 @@ namespace Asteroids3d {
                 mesh.Draw();
             }
             base.Draw(gameTime);
+        }
+
+        void HandleCollision(EntityCollidable sender, Collidable other, CollidablePairHandler pair) {
+            try {
+                Game.Services.GetService<Space>().Remove(sender.Entity);
+                Game.Components.Remove(this);
+
+                var otherEntityInformation = other as EntityCollidable;
+
+                if (otherEntityInformation.Tag == null) {
+                    return;
+                }
+
+                Vector3 pos = new Vector3(physicsObject.Position.X, physicsObject.Position.Y, physicsObject.Position.Z);
+
+
+                if (otherEntityInformation.Tag.GetType() == typeof(LargeAsteroid))
+                {
+                    Game.Services.GetService<Space>().Remove(otherEntityInformation.Entity);
+                    Game.Components.Remove((LargeAsteroid)otherEntityInformation.Tag);
+
+                    Random rnd = new Random();
+                    new MediumAsteroid(Game, pos, 1, new Vector3(rnd.Next(0, 10), rnd.Next(0, 10), rnd.Next(0, 10)));
+                    new MediumAsteroid(Game, pos, 1, new Vector3(rnd.Next(0, 10), rnd.Next(0, 10), rnd.Next(0, 10)));
+                }
+
+                if (otherEntityInformation.Tag.GetType() == typeof(MediumAsteroid)) {
+                    Game.Services.GetService<Space>().Remove(otherEntityInformation.Entity);
+                    Game.Components.Remove((MediumAsteroid) otherEntityInformation.Tag);
+
+                    Random rnd = new Random();
+                    new SmallAsteroid(Game, pos, 1, new Vector3(rnd.Next(0, 10), rnd.Next(0, 10), rnd.Next(0, 10)));
+                }
+
+                if (otherEntityInformation.Tag.GetType() == typeof(SmallAsteroid))
+                {
+                    Game.Services.GetService<Space>().Remove(otherEntityInformation.Entity);
+                    Game.Components.Remove((SmallAsteroid)otherEntityInformation.Tag);
+                }
+            }
+            catch (ArgumentException) {
+
+            }
         }
     }
 }

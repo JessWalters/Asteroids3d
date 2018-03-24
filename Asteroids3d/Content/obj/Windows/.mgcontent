@@ -4,9 +4,11 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>D:/Projects/ComS 437/Asteroids3d/Asteroids3d/Content/moon.fbx</File>
-    <File>D:/Projects/ComS 437/Asteroids3d/Asteroids3d/Content/skybox.fbx</File>
-    <File>D:/Projects/ComS 437/Asteroids3d/Asteroids3d/Content/moonsurface.png</File>
-    <File>D:/Projects/ComS 437/Asteroids3d/Asteroids3d/Content/Models/p1_wedge.fbx</File>
+    <File>C:/Projects/Asteroids3d/Asteroids3d/Content/moon.fbx</File>
+    <File>C:/Projects/Asteroids3d/Asteroids3d/Content/skybox.fbx</File>
+    <File>C:/Projects/Asteroids3d/Asteroids3d/Content/moonsurface.png</File>
+    <File>C:/Projects/Asteroids3d/Asteroids3d/Content/Models/p1_wedge.fbx</File>
+    <File>C:/Projects/Asteroids3d/Asteroids3d/Content/rock.fbx</File>
+    <File>C:/Projects/Asteroids3d/Asteroids3d/Content/Rockfbx.fbx</File>
   </SourceFiles>
 </SourceFileCollection>

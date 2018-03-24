@@ -42,6 +42,7 @@ namespace Asteroids3d
                 new CompoundShapeEntry(new BoxShape(dimX, dimY, 10f),  new BEPUutilities.Vector3(0, 0, dimZ/2)),
                 new CompoundShapeEntry(new BoxShape(dimX, dimY, 10f),  new BEPUutilities.Vector3(0, 0, -dimZ/2)),
             });
+            physicsObject.CollisionInformation.Tag = this;
             Game.Services.GetService<Space>().Add(physicsObject);
         }
 

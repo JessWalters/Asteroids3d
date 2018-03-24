@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>D:/Projects/ComS 437/Asteroids3d/Asteroids3d/Content/skybox.fbx</SourceFile>
-  <SourceTime>2018-03-18T01:33:40.6365846-05:00</SourceTime>
-  <DestFile>D:/Projects/ComS 437/Asteroids3d/Asteroids3d/Content/bin/Windows/skybox.xnb</DestFile>
-  <DestTime>2018-03-20T22:13:22.8592555-05:00</DestTime>
+  <SourceFile>C:/Projects/Asteroids3d/Asteroids3d/Content/skybox.fbx</SourceFile>
+  <SourceTime>2018-03-24T03:26:25.0066192-05:00</SourceTime>
+  <DestFile>C:/Projects/Asteroids3d/Asteroids3d/Content/bin/Windows/skybox.xnb</DestFile>
+  <DestTime>2018-03-24T03:38:58.6582067-05:00</DestTime>
   <Importer>FbxImporter</Importer>
   <ImporterTime>2017-03-01T09:05:36-06:00</ImporterTime>
   <Processor>ModelProcessor</Processor>
@@ -66,7 +66,7 @@
   </Parameters>
   <Dependencies />
   <BuildAsset>
-    <string>D:/Projects/ComS 437/Asteroids3d/Asteroids3d/Content/bin/Windows/spacebox_0.xnb</string>
+    <string>C:/Projects/Asteroids3d/Asteroids3d/Content/bin/Windows/spacebox_0.xnb</string>
   </BuildAsset>
   <BuildOutput />
 </PipelineBuildEvent>

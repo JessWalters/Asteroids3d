@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>D:/Projects/ComS 437/Asteroids3d/Asteroids3d/Content/moon.fbx</SourceFile>
-  <SourceTime>2018-02-19T01:05:07.3687054-06:00</SourceTime>
-  <DestFile>D:/Projects/ComS 437/Asteroids3d/Asteroids3d/Content/bin/Windows/moon.xnb</DestFile>
-  <DestTime>2018-03-10T23:18:41.4995586-06:00</DestTime>
+  <SourceFile>C:/Projects/Asteroids3d/Asteroids3d/Content/moon.fbx</SourceFile>
+  <SourceTime>2018-03-24T03:26:24.9826021-05:00</SourceTime>
+  <DestFile>C:/Projects/Asteroids3d/Asteroids3d/Content/bin/Windows/moon.xnb</DestFile>
+  <DestTime>2018-03-24T03:38:10.7215727-05:00</DestTime>
   <Importer>FbxImporter</Importer>
   <ImporterTime>2017-03-01T09:05:36-06:00</ImporterTime>
   <Processor>ModelProcessor</Processor>
@@ -66,7 +66,7 @@
   </Parameters>
   <Dependencies />
   <BuildAsset>
-    <string>D:/Projects/ComS 437/Asteroids3d/Asteroids3d/Content/bin/Windows/moonsurface_0.xnb</string>
+    <string>C:/Projects/Asteroids3d/Asteroids3d/Content/bin/Windows/moonsurface_0.xnb</string>
   </BuildAsset>
   <BuildOutput />
 </PipelineBuildEvent>
