@@ -35,12 +35,12 @@ namespace Asteroids3d
         public UniverseWall(Game game, BEPUutilities.Vector3 pos, int dimX, int dimY, int dimZ) : this(game)
         {
             physicsObject = new CompoundBody(new List<CompoundShapeEntry> {
-                new CompoundShapeEntry(new BoxShape(1, dimY, dimZ), new BEPUutilities.Vector3(dimX/2, 0, 0)),
-                new CompoundShapeEntry(new BoxShape(1, dimY, dimZ), new BEPUutilities.Vector3(-dimX/2, 0, 0)),
-                new CompoundShapeEntry(new BoxShape(dimX, 1, dimZ),  new BEPUutilities.Vector3(0, dimY/2, 0)),
-                new CompoundShapeEntry(new BoxShape(dimX, 1, dimZ),  new BEPUutilities.Vector3(0, -dimY/2, 0)),
-                new CompoundShapeEntry(new BoxShape(dimX, dimY, 1),  new BEPUutilities.Vector3(0, 0, dimZ/2)),
-                new CompoundShapeEntry(new BoxShape(dimX, dimY, 1),  new BEPUutilities.Vector3(0, 0, -dimZ/2)),
+                new CompoundShapeEntry(new BoxShape(10f, dimY, dimZ), new BEPUutilities.Vector3(dimX/2, 0, 0)),
+                new CompoundShapeEntry(new BoxShape(10f, dimY, dimZ), new BEPUutilities.Vector3(-dimX/2, 0, 0)),
+                new CompoundShapeEntry(new BoxShape(dimX, 10f, dimZ),  new BEPUutilities.Vector3(0, dimY/2, 0)),
+                new CompoundShapeEntry(new BoxShape(dimX, 10f, dimZ),  new BEPUutilities.Vector3(0, -dimY/2, 0)),
+                new CompoundShapeEntry(new BoxShape(dimX, dimY, 10f),  new BEPUutilities.Vector3(0, 0, dimZ/2)),
+                new CompoundShapeEntry(new BoxShape(dimX, dimY, 10f),  new BEPUutilities.Vector3(0, 0, -dimZ/2)),
             });
             Game.Services.GetService<Space>().Add(physicsObject);
         }
@@ -67,15 +67,10 @@ namespace Asteroids3d
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
-                    effect.EnableDefaultLighting();
-                    effect.PreferPerPixelLighting = true;
+                    effect.PreferPerPixelLighting = false;
                     effect.World = ConversionHelper.MathConverter.Convert(physicsObject.WorldTransform);
-                    effect.View = Matrix.CreateLookAt(Game1.CameraPosition, Vector3.Forward, Vector3.Up);
-                    float aspectRatio = Game.GraphicsDevice.Viewport.AspectRatio;
-                    float fieldOfView = Microsoft.Xna.Framework.MathHelper.PiOver4;
-                    float nearClipPlane = 1;
-                    float farClipPlane = 200;
-                    effect.Projection = Matrix.CreatePerspectiveFieldOfView(fieldOfView, aspectRatio, nearClipPlane, farClipPlane);
+                    effect.View = Game1.Camera.ViewMatrix;
+                    effect.Projection = Game1.Camera.ProjectionMatrix;
                 }
                 mesh.Draw();
             }

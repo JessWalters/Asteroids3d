@@ -39,3 +39,7 @@ D:\Projects\ComS 437\Asteroids3d\Asteroids3d\bin\Windows\x86\Debug\Content\Conte
 D:\Projects\ComS 437\Asteroids3d\Asteroids3d\bin\Windows\x86\Debug\SharpDX.Direct3D9.dll
 D:\Projects\ComS 437\Asteroids3d\Asteroids3d\bin\Windows\x86\Debug\SharpDX.Direct3D9.xml
 D:\Projects\ComS 437\Asteroids3d\Asteroids3d\obj\x86\Debug\Asteroids3d.csproj.CopyComplete
+D:\Projects\ComS 437\Asteroids3d\Asteroids3d\bin\Windows\x86\Debug\Content\skybox.xnb
+D:\Projects\ComS 437\Asteroids3d\Asteroids3d\bin\Windows\x86\Debug\Content\spacebox_0.xnb
+D:\Projects\ComS 437\Asteroids3d\Asteroids3d\bin\Windows\x86\Debug\Content\Models\p1_wedge.xnb
+D:\Projects\ComS 437\Asteroids3d\Asteroids3d\bin\Windows\x86\Debug\Content\textures\wedge_p1_diff_v1_0.xnb

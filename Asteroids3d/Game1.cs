@@ -2,29 +2,34 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace Asteroids3d {
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
     public class Game1 : Game {
-        GraphicsDeviceManager graphics;
+        public static GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Camera camera;
         Model skyboxModel;
+        public Ship ship;
+        private double lastShot = 0;
 
         public static Vector3 CameraPosition {
             get;
             private set;
         }
 
-        public static Vector3 CameraDirection {
+        public static Camera Camera {
             get;
             private set;
         }
+        public object MouseState { get; internal set; }
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferHeight = 900;
+            graphics.PreferredBackBufferWidth = 1600;
             Content.RootDirectory = "Content";
         }
 
@@ -35,13 +40,20 @@ namespace Asteroids3d {
         /// and initialize them as well.
         /// </summary>
         protected override void Initialize() {
+            Random rnd = new Random();
+
             // Make our BEPU Physics space a service
             Services.AddService<Space>(new Space());
 
-            new UniverseWall(this, new BEPUutilities.Vector3(0, 0, 0), 80, 80, 80);
+            
+            new UniverseWall(this, new BEPUutilities.Vector3(0, 0, 0), 400, 400, 400);
 
-            new MediumAsteroid(this, new Vector3(1, 5, -30), 2, new Vector3(0.2f, 10f, 0f), new Vector3(0.1f, 0.0f, 0.0f));
-            new MediumAsteroid(this, new Vector3(5, 5, 0), 2, new Vector3(0f, 0f, 15f), new Vector3(0.9f, 0.0f, 3f));
+            for (int i = 1; i <= 500; i++) {
+                new MediumAsteroid(this, new Vector3(rnd.Next(-80, 80), rnd.Next(-80, 80), rnd.Next(-80, 80)), 2, new Vector3(rnd.Next(-5,5), rnd.Next(-5, 5), rnd.Next(-5, 5)), new Vector3(rnd.Next(-5, 5), rnd.Next(-5, 5), rnd.Next(-5, 5)));
+            }
+            ship = new Ship(this, new Vector3(0, 0, -10), 2, Vector3.Zero, Vector3.Zero);
+
+            Camera = new Camera(this);
 
             base.Initialize();
         }
@@ -74,10 +86,18 @@ namespace Asteroids3d {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            MouseState mouse = Mouse.GetState();
+            GameTime tmp = gameTime;
+
+            if (mouse.LeftButton == ButtonState.Pressed && gameTime.TotalGameTime.TotalMilliseconds - lastShot > 500) {
+                new MediumAsteroid(this, ship.position + (ship.WorldMatrix.Forward * 3), 2, ship.WorldMatrix.Forward * 200, Vector3.Zero);
+                lastShot = gameTime.TotalGameTime.TotalMilliseconds;
+            }
+
+            Camera.Update();
+            ship.UpdateShip((float)gameTime.ElapsedGameTime.TotalSeconds);
             Services.GetService<Space>().Update((float)gameTime.ElapsedGameTime.TotalSeconds);
-            CameraPosition = new Vector3(CameraPosition.X, CameraPosition.Y, 100);
-            CameraDirection = new Vector3(CameraDirection.X + 1, CameraDirection.Y, CameraDirection.Z + 0.05f);
+
             base.Update(gameTime);
         }
 
@@ -88,22 +108,7 @@ namespace Asteroids3d {
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.Black);
             
-            // TODO: Add your drawing code here
-
             base.Draw(gameTime);
-        }
-
-        private void DrawSkybox() {
-            SamplerState samplerState = new SamplerState();
-            samplerState.AddressU = TextureAddressMode.Clamp;
-            samplerState.AddressV = TextureAddressMode.Clamp;
-            GraphicsDevice.SamplerStates[0] = samplerState;
-
-            DepthStencilState depthStencil = new DepthStencilState();
-            depthStencil.DepthBufferEnable = false;
-            GraphicsDevice.DepthStencilState = depthStencil;
-
-            //Matrix[] skyboxTransforms = new Matrix[]
         }
     }
 }

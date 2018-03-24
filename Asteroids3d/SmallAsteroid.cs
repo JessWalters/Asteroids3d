@@ -52,7 +52,6 @@ namespace Asteroids3d {
             model = Game.Content.Load<Model>("moon");
             physicsObject.Radius = model.Meshes[0].BoundingSphere.Radius;
 
-
             base.LoadContent();
         }
 
@@ -66,12 +65,8 @@ namespace Asteroids3d {
                     effect.EnableDefaultLighting();
                     effect.PreferPerPixelLighting = true;
                     effect.World = ConversionHelper.MathConverter.Convert(physicsObject.WorldTransform);
-                    effect.View = Matrix.CreateLookAt(Game1.CameraPosition, Vector3.Forward, Vector3.Up);
-                    float aspectRatio = Game.GraphicsDevice.Viewport.AspectRatio;
-                    float fieldOfView = Microsoft.Xna.Framework.MathHelper.PiOver4;
-                    float nearClipPlane = 1;
-                    float farClipPlane = 200;
-                    effect.Projection = Matrix.CreatePerspectiveFieldOfView(fieldOfView, aspectRatio, nearClipPlane, farClipPlane);
+                    effect.View = Game1.Camera.ViewMatrix;
+                    effect.Projection = Game1.Camera.ProjectionMatrix;
                 }
                 mesh.Draw();
             }

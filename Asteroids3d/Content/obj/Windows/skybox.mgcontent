@@ -3,7 +3,7 @@
   <SourceFile>D:/Projects/ComS 437/Asteroids3d/Asteroids3d/Content/skybox.fbx</SourceFile>
   <SourceTime>2018-03-18T01:33:40.6365846-05:00</SourceTime>
   <DestFile>D:/Projects/ComS 437/Asteroids3d/Asteroids3d/Content/bin/Windows/skybox.xnb</DestFile>
-  <DestTime>2018-03-18T01:33:45.9816847-05:00</DestTime>
+  <DestTime>2018-03-20T22:13:22.8592555-05:00</DestTime>
   <Importer>FbxImporter</Importer>
   <ImporterTime>2017-03-01T09:05:36-06:00</ImporterTime>
   <Processor>ModelProcessor</Processor>
@@ -54,7 +54,7 @@
   </Parameters>
   <Parameters>
     <Key>Scale</Key>
-    <Value>40</Value>
+    <Value>400</Value>
   </Parameters>
   <Parameters>
     <Key>SwapWindingOrder</Key>
