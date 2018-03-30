@@ -64,6 +64,8 @@ namespace Asteroids3d
 
         public override void Draw(GameTime gameTime)
         {
+            physicsObject.CollisionInformation.Tag = this;
+
             foreach (var mesh in model.Meshes)
             {
                 foreach (BasicEffect effect in mesh.Effects)

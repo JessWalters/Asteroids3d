@@ -106,17 +106,25 @@ namespace Asteroids3d {
             if (keyboardState.IsKeyDown(Keys.W) || (currentState.DPad.Up == ButtonState.Pressed)) {
                 Vector3 moveNB = WorldMatrix.Forward;
                 BEPUutilities.Vector3 move = new BEPUutilities.Vector3(moveNB.X, moveNB.Y, moveNB.Z);
+                move *= 2;
                 //physicsObject. = new BEPUutilities.Vector3(move.X, move.Y, move.Z);
                 if (physicsObject.LinearVelocity.Length() < MAX_VELOCITY) {
                     physicsObject.ApplyLinearImpulse(ref move);
                 }
+                Game.driveInstance.Play();
             }
-            if (keyboardState.IsKeyDown(Keys.S) || (currentState.DPad.Down == ButtonState.Pressed)) {
+            else if (keyboardState.IsKeyDown(Keys.S) || (currentState.DPad.Down == ButtonState.Pressed)) {
                 Vector3 moveNB = WorldMatrix.Backward;
                 BEPUutilities.Vector3 move = new BEPUutilities.Vector3(moveNB.X, moveNB.Y, moveNB.Z);
                 //physicsObject. = new BEPUutilities.Vector3(move.X, move.Y, move.Z);
                 if (physicsObject.LinearVelocity.Length() < MAX_VELOCITY) {
                     physicsObject.ApplyLinearImpulse(ref move);
+                }
+                Game.driveInstance.Play();
+            }
+            else {
+                if (Game.driveInstance.State == Microsoft.Xna.Framework.Audio.SoundState.Playing) {
+                    Game.driveInstance.Stop();
                 }
             }
 
@@ -148,14 +156,9 @@ namespace Asteroids3d {
             base.Draw(gameTime);
         }
 
-        void HandleCollision(EntityCollidable sender, Collidable other, CollidablePairHandler pair)
-        {
+        void HandleCollision(EntityCollidable sender, Collidable other, CollidablePairHandler pair) {
             try
             {
-                Game.Services.GetService<Space>().Remove(sender.Entity);
-                Game.Components.Remove(this);
-                Game.ship = new Ship(Game, new Vector3(0, 0, -10), 2, new Vector3(0f, 0f, 5f), Vector3.Zero);
-
                 var otherEntityInformation = other as EntityCollidable;
 
                 if (otherEntityInformation.Tag == null)
@@ -174,6 +177,18 @@ namespace Asteroids3d {
                     Random rnd = new Random();
                     new MediumAsteroid(Game, pos, 1, new Vector3(rnd.Next(0, 10), rnd.Next(0, 10), rnd.Next(0, 10)));
                     new MediumAsteroid(Game, pos, 1, new Vector3(rnd.Next(0, 10), rnd.Next(0, 10), rnd.Next(0, 10)));
+
+                    Game.Services.GetService<Space>().Remove(sender.Entity);
+                    Game.Components.Remove(this);
+                    Game.Lives--;
+                    if (Game.Lives == 0) {
+                        Game.GameOver(false);
+                    }
+                    else {
+                        Game.ship = new Ship(Game, new Vector3(0, 0, -10), 2, new Vector3(0f, 0f, 5f), Vector3.Zero);
+                        Game.boomInstance.Play();
+
+                    }
                 }
 
                 if (otherEntityInformation.Tag.GetType() == typeof(MediumAsteroid))
@@ -183,12 +198,35 @@ namespace Asteroids3d {
 
                     Random rnd = new Random();
                     new SmallAsteroid(Game, pos, 1, new Vector3(rnd.Next(0, 10), rnd.Next(0, 10), rnd.Next(0, 10)));
+
+                    Game.Services.GetService<Space>().Remove(sender.Entity);
+                    Game.Components.Remove(this);
+                    Game.Lives--;
+                    if (Game.Lives == 0) {
+                        Game.GameOver(false);
+                    }
+                    else {
+                        Game.ship = new Ship(Game, new Vector3(0, 0, -10), 2, new Vector3(0f, 0f, 5f), Vector3.Zero);
+                        Game.boomInstance.Play();
+
+                    }
                 }
 
                 if (otherEntityInformation.Tag.GetType() == typeof(SmallAsteroid))
                 {
                     Game.Services.GetService<Space>().Remove(otherEntityInformation.Entity);
                     Game.Components.Remove((SmallAsteroid)otherEntityInformation.Tag);
+
+                    Game.Services.GetService<Space>().Remove(sender.Entity);
+                    Game.Components.Remove(this);
+                    Game.Lives--;
+                    if (Game.Lives == 0) {
+                        Game.GameOver(false);
+                    }
+                    else {
+                        Game.ship = new Ship(Game, new Vector3(0, 0, -10), 2, new Vector3(0f, 0f, 5f), Vector3.Zero);
+                        Game.boomInstance.Play();
+                    }
                 }
             }
             catch (ArgumentException)

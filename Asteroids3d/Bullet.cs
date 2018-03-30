@@ -11,14 +11,18 @@ namespace Asteroids3d {
 
     internal class Bullet : DrawableGameComponent {
 
+        private Game1 game;
         private Model model;
+        private float pitch;
+        private float yaw;
         private BEPUphysics.Entities.Prefabs.Sphere physicsObject;
 
-        public Bullet(Game game) : base(game) {
+        public Bullet(Game1 game) : base(game) {
             game.Components.Add(this);
+            this.game = game;
         }
 
-        public Bullet(Game game, Vector3 pos) : this(game) {
+        public Bullet(Game1 game, Vector3 pos) : this(game) {
             physicsObject = new BEPUphysics.Entities.Prefabs.Sphere(ConversionHelper.MathConverter.Convert(pos), 1);
             physicsObject.AngularDamping = 0f;
             physicsObject.LinearDamping = 0f;
@@ -31,16 +35,17 @@ namespace Asteroids3d {
             Game.Services.GetService<Space>().Add(physicsObject);
         }
 
-        public Bullet(Game game, Vector3 pos, float mass) : this(game, pos) {
+        public Bullet(Game1 game, Vector3 pos, float mass) : this(game, pos) {
             physicsObject.Mass = mass;
         }
 
-        public Bullet(Game game, Vector3 pos, float mass, Vector3 linMomentum) : this(game, pos, mass) {
+        public Bullet(Game1 game, Vector3 pos, float mass, Vector3 linMomentum) : this(game, pos, mass) {
             physicsObject.LinearMomentum = ConversionHelper.MathConverter.Convert(linMomentum);
         }
 
-        public Bullet(Game game, Vector3 pos, float mass, Vector3 linMomentum, Vector3 angMomentum) : this(game, pos, mass, linMomentum) {
-            physicsObject.AngularMomentum = ConversionHelper.MathConverter.Convert(angMomentum);
+        public Bullet(Game1 game, Vector3 pos, float mass, Vector3 linMomentum, float p, float y) : this(game, pos, mass, linMomentum) {
+            pitch = p;
+            yaw = y;
         }
 
         public override void Initialize() {
@@ -48,7 +53,7 @@ namespace Asteroids3d {
         }
         
         protected override void LoadContent() {
-            model = Game.Content.Load<Model>("Rockfbx");
+            model = Game.Content.Load<Model>("missle");
             if (physicsObject != null) {
                 physicsObject.Radius = model.Meshes[0].BoundingSphere.Radius;
                 physicsObject.CollisionInformation.Tag = this;
@@ -69,7 +74,7 @@ namespace Asteroids3d {
 
                     effect.EnableDefaultLighting();
                     effect.PreferPerPixelLighting = true;
-                    effect.World = ConversionHelper.MathConverter.Convert(physicsObject.WorldTransform);
+                    effect.World = Matrix.CreateFromAxisAngle(Vector3.Right, pitch) * Matrix.CreateFromAxisAngle(Vector3.Up, yaw) * ConversionHelper.MathConverter.Convert(physicsObject.WorldTransform);
                     effect.View = Game1.Camera.ViewMatrix;
                     effect.Projection = Game1.Camera.ProjectionMatrix;
                 }
@@ -98,8 +103,12 @@ namespace Asteroids3d {
                     Game.Components.Remove((LargeAsteroid)otherEntityInformation.Tag);
 
                     Random rnd = new Random();
-                    new MediumAsteroid(Game, pos, 1, new Vector3(rnd.Next(0, 10), rnd.Next(0, 10), rnd.Next(0, 10)));
-                    new MediumAsteroid(Game, pos, 1, new Vector3(rnd.Next(0, 10), rnd.Next(0, 10), rnd.Next(0, 10)));
+                    new MediumAsteroid(game, pos, 1, new Vector3(rnd.Next(0, 10), rnd.Next(0, 10), rnd.Next(0, 10)));
+                    new MediumAsteroid(game, pos, 1, new Vector3(rnd.Next(0, 10), rnd.Next(0, 10), rnd.Next(0, 10)));
+
+                    game.totalAsteroidScore--;
+                    game.boomInstance.Play();
+
                 }
 
                 if (otherEntityInformation.Tag.GetType() == typeof(MediumAsteroid)) {
@@ -107,13 +116,21 @@ namespace Asteroids3d {
                     Game.Components.Remove((MediumAsteroid) otherEntityInformation.Tag);
 
                     Random rnd = new Random();
-                    new SmallAsteroid(Game, pos, 1, new Vector3(rnd.Next(0, 10), rnd.Next(0, 10), rnd.Next(0, 10)));
+                    new SmallAsteroid(game, pos, 1, new Vector3(rnd.Next(0, 10), rnd.Next(0, 10), rnd.Next(0, 10)));
+
+                    game.totalAsteroidScore--;
+                    game.boomInstance.Play();
+
                 }
 
                 if (otherEntityInformation.Tag.GetType() == typeof(SmallAsteroid))
                 {
                     Game.Services.GetService<Space>().Remove(otherEntityInformation.Entity);
                     Game.Components.Remove((SmallAsteroid)otherEntityInformation.Tag);
+
+                    game.totalAsteroidScore--;
+                    game.boomInstance.Play();
+
                 }
             }
             catch (ArgumentException) {
